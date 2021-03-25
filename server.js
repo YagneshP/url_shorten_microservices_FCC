@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 app.get('/api/shorturl/:id',async (req, res) =>{
 
 	//check the query :id and find the shorturl from DB
-	let foundUrl = await Url.findOne({shortUrl: +req.params.id});
+	let foundUrl = await Url.findOne({shortUrl: req.params.id});
 	if(foundUrl){
 		res.redirect(foundUrl.longUrl)
 	}else{
