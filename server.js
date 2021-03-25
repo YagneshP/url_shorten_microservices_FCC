@@ -56,14 +56,14 @@ app.post('/api/shorturl/new', (req,res)=>{
 					let foundUrl = await Url.findOne({longUrl:url});
 						//if yes then return url 
 					if(foundUrl){
-						res.json({originalUrl:foundUrl.longUrl,shortUrl:foundUrl.shortUrl});
+						res.json({original_url:foundUrl.longUrl,short_url:foundUrl.shortUrl});
 					}else{
 						//if no
 						//create the short url withh counter
 						let newUrl = await Url.create({longUrl:url, shortUrl:counter});
 						counter++; //increment the counter;
 						await newUrl.save();
-						res.json({originalUrl:newUrl.longUrl, shortUrl:newUrl.shortUrl});
+						res.json({original_url:newUrl.longUrl, short_url:newUrl.shortUrl});
 					}
 				}
 		});
