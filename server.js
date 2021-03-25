@@ -52,6 +52,7 @@ app.post('/api/shorturl/new', (req,res)=>{
 					//if err/ not valid url/ not getting domain  then send json with error message
 					res.json({error:"Invalid url"})
 				} else{
+					url = "https://"+url;
 					// if yes then find in db if url exist or not
 					let foundUrl = await Url.findOne({longUrl:url});
 						//if yes then return url 
@@ -59,7 +60,7 @@ app.post('/api/shorturl/new', (req,res)=>{
 						res.json({original_url:foundUrl.longUrl,short_url:foundUrl.shortUrl});
 					}else{
 						//if no
-						url = "https://"+url;
+						
 						//create the short url withh counter
 						let newUrl = await Url.create({longUrl:url, shortUrl:counter});
 						counter++; //increment the counter;
