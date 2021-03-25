@@ -23,20 +23,25 @@ app.get('/', (req, res) => {
 
 // GET route for the shorturl
 app.get('/api/shorturl/:id',async (req, res) =>{
+try{
+		//check the query :id and find the shorturl from DB
+		let foundUrl = await Url.findOne({shortUrl: req.params.id});
+		if(foundUrl){
+			res.redirect(foundUrl.longUrl)
+		}else{
+			res.json({error:"Invalid url"})
+		}
+} catch(err){
+	console.log(err);
+}
 
-	//check the query :id and find the shorturl from DB
-	let foundUrl = await Url.findOne({shortUrl: req.params.id});
-	if(foundUrl){
-		res.redirect(foundUrl.longUrl)
-	}else{
-		res.json({error:"Invalid url"})
-	}
 });
 
 //POST route for new shortURL
 
-app.post('/api/shorturl/new', (req,res)=>{
-	//hostname only accept 'company'+'.com/.org...'
+app.post('/api/shorturl/new',async (req,res)=>{
+	try{
+			//hostname only accept 'company'+'.com/.org...'
 	const httpRegex = /^https?:\/\//ig;
 	// const domainRegex = /^([a-z0-9]+\.)?[a-z0-9][a-z0-9-]*\.[a-z]{2,6}$/ig;
 	let url = ""+req.body.url;
@@ -70,6 +75,10 @@ app.post('/api/shorturl/new', (req,res)=>{
 				}
 		});
 	};
+	}catch(err){
+		console.log(err)
+	}
+
 
 })
 
