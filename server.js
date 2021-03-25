@@ -27,7 +27,7 @@ app.get('/api/shorturl/:id',async (req, res) =>{
 	//check the query :id and find the shorturl from DB
 	let foundUrl = await Url.findOne({shortUrl: req.params.id});
 	if(foundUrl){
-		res.redirect("https://"+foundUrl.longUrl)
+		res.redirect(foundUrl.longUrl)
 	}else{
 		res.json({error:"Invalid url"})
 	}
@@ -59,6 +59,7 @@ app.post('/api/shorturl/new', (req,res)=>{
 						res.json({original_url:foundUrl.longUrl,short_url:foundUrl.shortUrl});
 					}else{
 						//if no
+						url = "https://"+url;
 						//create the short url withh counter
 						let newUrl = await Url.create({longUrl:url, shortUrl:counter});
 						counter++; //increment the counter;
