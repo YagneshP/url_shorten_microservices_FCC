@@ -41,7 +41,6 @@ app.post('/api/shorturl/new', (req,res)=>{
 	// const domainRegex = /^([a-z0-9]+\.)?[a-z0-9][a-z0-9-]*\.[a-z]{2,6}$/ig;
 	let url = ""+req.body.url;
 	if(httpRegex.test(url)) {
-		console.log("pasing true");
 		url = url.replace(httpRegex,"");	
 	}
 
@@ -52,9 +51,10 @@ app.post('/api/shorturl/new', (req,res)=>{
 					//if err/ not valid url/ not getting domain  then send json with error message
 					res.json({error:"Invalid url"})
 				} else{
-					url = "https://"+url;
+					url = "https://"+ url;
+					console.log("url",url);
 					// if yes then find in db if url exist or not
-					let foundUrl = await Url.findOne({longUrl:url});
+					let foundUrl = await Url.findOne({longUrl:url}).exec();
 						//if yes then return url 
 					if(foundUrl){
 						res.json({original_url:foundUrl.longUrl,short_url:foundUrl.shortUrl});
