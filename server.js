@@ -32,7 +32,7 @@ try{
 			res.json({error:"Invalid url"})
 		}
 } catch(err){
-	console.log(err);
+	res.json({error:"Invalid url"});
 }
 
 });
@@ -76,7 +76,7 @@ app.post('/api/shorturl/new',async (req,res)=>{
 		});
 	};
 	}catch(err){
-		console.log(err)
+		res.json({error:"Invalid url"});
 	}
 
 
