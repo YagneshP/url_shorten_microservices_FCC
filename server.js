@@ -24,13 +24,18 @@ app.get('/', (req, res) => {
 // GET route for the shorturl
 app.get('/api/shorturl/:id',async (req, res) =>{
 try{
-		//check the query :id and find the shorturl from DB
-		let foundUrl = await Url.findOne({shortUrl: +req.params.id});
-		if(foundUrl){
-			res.redirect(foundUrl.longUrl)
-		}else{
-			res.json({error:"Invalid url"})
-		}
+	if(Number(req.params.id) !== NaN){
+			//check the query :id and find the shorturl from DB
+			let foundUrl = await Url.findOne({shortUrl: +req.params.id});
+			if(foundUrl){
+				res.redirect(foundUrl.longUrl)
+			}else{
+				throw Error
+			}
+	}
+	else{
+		throw Error
+	}
 } catch(err){
 	res.json({error:"Invalid url"});
 }
