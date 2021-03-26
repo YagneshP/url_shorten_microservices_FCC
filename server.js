@@ -7,7 +7,7 @@ const Url = require("./model/url");
 const dns = require("dns");
 // Basic Configuration
 const port = process.env.PORT || 3000;
-let counter = 0;
+// let counter = 0;
 app.use(cors());
 app.use(express.json()); //Used to parse JSON bodies
 app.use(express.urlencoded());
@@ -35,7 +35,7 @@ app.get("/api/shorturl/:id", async (req, res) => {
       throw Error;
     }
   } catch (err) {
-    res.json({ error: "Invalid url" });
+    res.json({ error: "invalid url" });
   }
 });
 
@@ -68,6 +68,7 @@ app.post("/api/shorturl/new", async (req, res) => {
               short_url: foundUrl.shortUrl,
             });
           } else {
+						let counter = Math.round(Math.random()*10000);
             //if no create the short url withh counter
             let newUrl = await Url.create({ longUrl: url, shortUrl: counter });
             counter++; //increment the counter;
