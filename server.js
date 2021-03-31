@@ -49,14 +49,14 @@ app.post("/api/shorturl/new", async (req, res) => {
     let url = "" + req.body.url;
     if (httpRegex.test(url)) {
       url = url.replace(httpRegex, "");
-    }
+    // }
 
-    if (url) {
+    // if (url) {
       //check the new url is verified domain or not
       dns.lookup(url, async (err, address, family) => {
         if (err) {
           //if err/ not valid url/ not getting domain  then send json with error message
-          res.json({ error: "invalid url" });
+          res.json({ error: "Invalid URL" });
         } else {
           url = "https://" + url;
           //  find in db if url exist or not
@@ -80,9 +80,11 @@ app.post("/api/shorturl/new", async (req, res) => {
           }
         }
       });
-    }
+    } else{
+			throw new Error
+		}
   } catch (err) {
-    res.json({ error: "invalid url" });
+    res.json({ error: "Invalid URL" });
   }
 });
 
