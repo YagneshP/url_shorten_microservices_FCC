@@ -48,17 +48,16 @@ app.post("/api/shorturl/new", async (req, res) => {
     // const domainRegex = /^([a-z0-9]+\.)?[a-z0-9][a-z0-9-]*\.[a-z]{2,6}$/ig;
     let url = "" + req.body.url;
     if (httpRegex.test(url)) {
-      url = url.replace(httpRegex, "");
+    	let trimmedUrl = url.replace(httpRegex, "");
     // }
 
     // if (url) {
       //check the new url is verified domain or not
-      dns.lookup(url, async (err, address, family) => {
+      dns.lookup(trimmedUrl, async (err, address, family) => {
         if (err) {
           //if err/ not valid url/ not getting domain  then send json with error message
           res.json({ error: "Invalid URL" });
         } else {
-          url = "https://" + url;
           //  find in db if url exist or not
           let foundUrl = await Url.findOne({ longUrl: url }).exec();
           //if yes then return url
