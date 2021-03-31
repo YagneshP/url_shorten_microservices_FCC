@@ -63,8 +63,8 @@ app.post("/api/shorturl/new", async (req, res) => {
           //if yes then return url
           if (foundUrl) {
             res.json({
-              original_url: foundUrl.longUrl,
-              short_url: foundUrl.shortUrl,
+              original_url:foundUrl.longUrl,
+              short_url:foundUrl.shortUrl,
             });
           } else {
 						let counter = Math.round(Math.random()*10000);
@@ -73,8 +73,8 @@ app.post("/api/shorturl/new", async (req, res) => {
             counter++; //increment the counter;
             await newUrl.save();
             res.json({
-              original_url: newUrl.longUrl,
-              short_url: newUrl.shortUrl,
+              original_url:newUrl.longUrl,
+              short_url:newUrl.shortUrl,
             });
           }
         }
