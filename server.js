@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 // let counter = 0;
 app.use(cors());
 app.use(express.json()); //Used to parse JSON bodies
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended:true}));
 app.use("/public", express.static(`${process.cwd()}/public`));
 
 //connect to mongodb
@@ -56,7 +56,7 @@ app.post("/api/shorturl/new", async (req, res) => {
       dns.lookup(url, async (err, address, family) => {
         if (err) {
           //if err/ not valid url/ not getting domain  then send json with error message
-          res.json({ error: "Invalid url" });
+          res.json({ error: "invalid url" });
         } else {
           url = "https://" + url;
           //  find in db if url exist or not
@@ -82,7 +82,7 @@ app.post("/api/shorturl/new", async (req, res) => {
       });
     }
   } catch (err) {
-    res.json({ error: "Invalid url" });
+    res.json({ error: "invalid url" });
   }
 });
 
