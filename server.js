@@ -43,6 +43,7 @@ app.get("/api/shorturl/:id", async (req, res) => {
 
 app.post("/api/shorturl/new", async (req, res) => {
   try {
+		console.log("body", req.body);
     //hostname only accept 'company'+'.com/.org...'
     const httpRegex = /^https?:\/\//gi;
     const domainRegex = /^([a-z0-9]+\.)?[a-z0-9][a-z0-9-]*\.[a-z]{2,6}$/ig;
