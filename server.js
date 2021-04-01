@@ -46,7 +46,8 @@ app.post("/api/shorturl/new", async (req, res) => {
 		console.log("body", req.body.url);
     //hostname only accept 'company'+'.com/.org...'
     const httpRegex = /^https?:\/\//gi;
-    const domainRegex = /^([a-z0-9]+\.)?[a-z0-9][a-z0-9-]*\.[a-z]{2,}/ig;
+    // const domainRegex = /^([a-z0-9]+\.)?[a-z0-9][a-z0-9-]*\.[a-z]{2,}/ig;
+		const domainRegex = /^([a-z0-9]+\.)?[a-z0-9][a-z0-9-]*\.([a-z]{2,}\.?)+/gm;
     let url = "" + req.body.url;
     if (httpRegex.test(url)) {
     	let trimmedUrl = url.replace(httpRegex, "");
