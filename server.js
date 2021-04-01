@@ -45,13 +45,13 @@ app.post("/api/shorturl/new", async (req, res) => {
   try {
     //hostname only accept 'company'+'.com/.org...'
     const httpRegex = /^https?:\/\//gi;
-    // const domainRegex = /^([a-z0-9]+\.)?[a-z0-9][a-z0-9-]*\.[a-z]{2,6}$/ig;
+    const domainRegex = /^([a-z0-9]+\.)?[a-z0-9][a-z0-9-]*\.[a-z]{2,6}$/ig;
     let url = "" + req.body.url;
     if (httpRegex.test(url)) {
     	let trimmedUrl = url.replace(httpRegex, "");
     // }
 
-    // if (url) {
+    if (domainRegex.test(trimmedUrl)) {
       //check the new url is verified domain or not
       dns.lookup(trimmedUrl, async (err, address, family) => {
         if (err) {
@@ -82,7 +82,9 @@ app.post("/api/shorturl/new", async (req, res) => {
     } else{
 			throw new Error
 		}
-  } catch (err) {
+  }else{
+		throw new Error
+	} }catch (err) {
     res.json({ error: "Invalid URL" });
   }
 });
