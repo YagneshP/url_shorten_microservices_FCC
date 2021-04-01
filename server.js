@@ -46,19 +46,23 @@ app.post("/api/shorturl/new", async (req, res) => {
 		console.log("body", req.body);
     //hostname only accept 'company'+'.com/.org...'
     const httpRegex = /^https?:\/\//gi;
-    const domainRegex = /^([a-z0-9]+\.)?[a-z0-9][a-z0-9-]*\.[a-z]{2,6}$/ig;
+    const domainRegex = /^([a-z0-9]+\.)?[a-z0-9][a-z0-9-]*\.[a-z]{2,6}/ig;
     let url = "" + req.body.url;
     if (httpRegex.test(url)) {
     	let trimmedUrl = url.replace(httpRegex, "");
     // }
-
-    if (domainRegex.test(trimmedUrl)) {
+		// console.log("You cleared");
+		let domainUrl =  trimmedUrl.match(domainRegex);
+			console.log("domailUrl", domainUrl);
+    if (domainUrl) {
+			// console.log("It passed");
       //check the new url is verified domain or not
-      dns.lookup(trimmedUrl, async (err, address, family) => {
+      dns.lookup(domainUrl[0], async (err, address, family) => {
         if (err) {
           //if err/ not valid url/ not getting domain  then send json with error message
           res.json({ error: "Invalid URL" });
         } else {
+					// console.log("address", address);
           //  find in db if url exist or not
           let foundUrl = await Url.findOne({ longUrl: url }).exec();
           //if yes then return url
